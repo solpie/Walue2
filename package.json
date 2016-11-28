@@ -1,0 +1,19 @@
+{
+  "name": "walue2",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "build": "pyinstaller src/server/server.py -F --upx-dir c:/bin/upx391w --noupx",
+    "server": "python src/server/server.py"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/solpie/Walue2.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/solpie/Walue2/issues"
+  },
+  "homepage": "https://github.com/solpie/Walue2#readme"
+}

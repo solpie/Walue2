@@ -24,21 +24,50 @@ def loadConf():
 
 loadConf()
 # web server
-from bottle import route, get, run, static_file, request, post, template, TEMPLATE_PATH, HTTPResponse
-
+from bottle import Bottle, static_file, request, template, TEMPLATE_PATH, HTTPResponse
 TEMPLATE_PATH.append(os.path.join(serverConf["path"], 'views'))
+app = Bottle()
+get = app.get
+post = app.post
+route = app.route
 
 
 @get('/')
 def index():
     print("get index")
     return 'running'
+# socketio
+from socketio import socketio_manage
+import socketio
+from socketio.namespace import BaseNamespace
 
+
+class ChatNamespace(BaseNamespace):
+
+    def on_chat(self, msg):
+        self.emit('chat', msg)
+
+
+@route("/chat", methods=['GET', 'POST'])
+@route("/socket.io/", methods=['GET', 'POST'])
+def chat():
+    socketio_service(request)
+    return "out"
+
+# @route("/socket.io/", methods=['GET', 'POST'])
+
+
+def socketio_service(request):
+    socketio_manage(request.environ, {'': ChatNamespace},
+                    request)
+    return "out"
+# proxy
 import requests
-
 
 # @get('/=>')
 # @get('/<param:re:\=\>.+>')
+
+
 @get('/=>')
 @get('/=>/')
 @post('/=>')
@@ -64,6 +93,8 @@ def proxy():
     print("=>:", url)
     return HTTPResponse(r.content, **res_headers)
 
+# views
+
 
 @get('/<view_name>')
 @get('/<view_name>/')
@@ -84,4 +115,6 @@ def server_static(filepath):
     print(filepath)
     return static_file(filepath, root=static_path)
 
-run(host='0.0.0.0', debug=True, port=serverConf["port"], reloader=True)
+
+app.run( host='0.0.0.0', debug=True,
+        port=serverConf["port"], reloader=True)

@@ -3,17 +3,41 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "build": "pyinstaller src/server/server.py -F --upx-dir c:/bin/upx391w --noupx",
-    "server": "python src/server/server.py"
+    "app": "python src/RKB.py",
+    "build": "rollup -c&&npm run server-build",
+    "view": "webpack --watch --progress --profile --colors --display-error-details --display-cached --config webpack.view.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/solpie/Walue2.git"
+  },
+  "devDependencies": {
+    "copy-webpack-plugin": "^4.0.0",
+    "css-loader": "^0.25.0",
+    "html-loader": "^0.4.4",
+    "json-loader": "^0.5.4",
+    "rollup": "^0.36.3",
+    "rollup-plugin-uglify": "^1.0.1",
+    "script-loader": "^0.7.0",
+    "source-map-loader": "^0.1.5",
+    "style-loader": "^0.13.1",
+    "ts-loader": "^0.9.5",
+    "tsd": "^0.6.5",
+    "typescript": "^2.0.6",
+    "url-loader": "^0.5.7",
+    "webpack": "^1.13.3"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/solpie/Walue2/issues"
   },
-  "homepage": "https://github.com/solpie/Walue2#readme"
+  "homepage": "https://github.com/solpie/Walue2#readme",
+  "dependencies": {
+    "bytebuffer": "^5.0.1",
+    "jquery": "^3.1.1",
+    "long": "^3.2.0",
+    "protobufjs": "^6.0.1"
+  }
 }

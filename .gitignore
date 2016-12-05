@@ -2,3 +2,5 @@
 /dist
 *.spec
 .vscode/
+/node_modules
+*lang

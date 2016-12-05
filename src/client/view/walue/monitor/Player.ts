@@ -1,5 +1,7 @@
+import { packDmk } from '../../../model/DmkInfo';
+import { RoomInfo } from '../../../model/RoomInfo';
 import { CommandId } from '../../../model/Command';
-import { monitorModel } from '../../../model/MonitorModel';
+import { monitorModel, MonitorModel } from '../../../model/MonitorModel';
 import { VueBase } from '../../../utils/VueBase';
 declare let videojs;
 export class PlayerView extends VueBase {
@@ -7,6 +9,11 @@ export class PlayerView extends VueBase {
     roomInfo = VueBase.PROP
     idx = VueBase.PROP
     player: any
+    dmkArr = VueBase.PROP
+    dmkContent = VueBase.PROP
+    isShowAclist = VueBase.PROP
+    userArr = VueBase.PROP
+    
     constructor() {
         super();
         VueBase.initProps(this);
@@ -15,7 +22,25 @@ export class PlayerView extends VueBase {
         console.log("created player:", this.idx, this.roomInfo)
     }
 
+    makeWs(token) {
+        console.log("makeWs", token)
+        let wsIdx = MonitorModel.getWsIdx(this.roomInfo.id, token)
+        var ws = monitorModel.wsMap[wsIdx];
+        if (!ws) {
+            monitorModel.openChatWs(this.roomInfo, token, this.onDmkArrUpdate)
+        }
+    }
+
+    onDmkArrUpdate(v) {
+        console.log("onDmkArrUpdate",v);
+        this.dmkArr = v;
+        var $textarea = $(this.$el).find("textarea")[0];
+        $textarea.scrollTop = $textarea.scrollHeight;
+    }
+
     protected mounted() {
+        this.userArr = monitorModel.accountInfo.userArr
+
         let playerId = 'player' + this.roomInfo.id;
         console.log("mounted player", playerId)
         let $player = $(this.$el).find('video').attr('id', playerId)
@@ -36,6 +61,7 @@ export class PlayerView extends VueBase {
             });
         });
         this.player = player
+
     }
     protected methods = {
         onClose() {
@@ -43,7 +69,59 @@ export class PlayerView extends VueBase {
             this.player.dispose();
             $(this.$el).empty()
             $(this.$el).hide()
-        }
+        },
+        onClkAc() {
+            this.isShowAclist = true;
+        },
+        onInputEnter(e) {
+            console.log('onEnter',e);
+            if (e.keyIdentifier && e.keyIdentifier == "Enter") {
+                // if (e.key && e.key == "Enter" && e.ctrlKey) {
+                this.onSendDmk();
+            }
+        },
+        onSendDmk() {
+            console.log('onSendDmk',this.roomInfo, this.dmkContent, monitorModel.nameTokenMap, monitorModel.wsMap);
+            // var acObj = this.acSelected
+            var ac = this.roomInfo.selAc
+            if (ac) {
+                let token = monitorModel.nameTokenMap[ac]
+                let wsIdx = MonitorModel.getWsIdx(this.roomInfo.id, token)
+                var ws = monitorModel.wsMap[wsIdx];
+                console.log('getWsIdx', ws, wsIdx);
+                if (ws) {
+                    let roomInfo: RoomInfo = monitorModel.liveMap[this.roomInfo.id]
+                    // roomInfo.tmpWsIdx = wsIdx
+                    // console.log("selAc", roomInfo.selAc)
+                    var dmk = this.dmkContent;
+                    this.dmkContent = '';
+                    if (dmk.length > 0 && dmk[0] != " ") {
+                        var packMsg = packDmk(dmk, null);
+                        ws.send(packMsg);
+                    }
+                }
+                else {
+                    alert('发送失败：请登录');
+                }
+            }
+        },
+        onSelAc(ac) {
+            this.isShowAclist = false
+
+            console.log('onSelAc', ac)
+            this.roomInfo.selAc = ac
+            var token = monitorModel.nameTokenMap[ac];
+            if (!token) {
+                monitorModel.accountInfo.login(ac, null, (loginToken) => {
+                    monitorModel.nameTokenMap[ac] = loginToken
+                    monitorModel.openChatWs(this.roomInfo, loginToken, this.onDmkArrUpdate)
+                    this.roomInfo.displayName = monitorModel.accountInfo.getDisplayName(ac)
+                })
+            } else {
+                this.roomInfo.displayName = monitorModel.accountInfo.getDisplayName(ac)
+                this.makeWs(token)
+            }
+        },
     }
 }
 export let playerView = new PlayerView()

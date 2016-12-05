@@ -1,13 +1,12 @@
 declare let protobuf;
 var Message;
 var Danmaku;
-protobuf.load("/pb/live_websocket.proto", function (err, root) {
+protobuf.load("/pb/live_websocket.proto", (err, root) => {
     if (err) throw err;
     // // Obtain a message type
     Message = root.lookup("Message")
     Danmaku = root.lookup("Danmaku")
-    // console.log(root, Danmaku, Message);
-
+    console.log(root, Danmaku, Message);
     // var AwesomeMessage = root.lookup("awesomepackage.AwesomeMessage");
     // // Create a new message
     // var message = AwesomeMessage.create({ awesomeField: "AwesomeString" });
@@ -22,26 +21,24 @@ protobuf.load("/pb/live_websocket.proto", function (err, root) {
     // // Decode a buffer
     // var message = AwesomeMessage.decode(buffer);
 });
-// var dmk = new root.LiveEventBroadcast();
-// console.log('dmk pb', dmk);
 export var packDmk = (content, user) => {
-    var dmkMsg = new Danmaku();
-    dmkMsg.content = content;
-    // dmkMsg.encode().toArrayBuffer();
-    var msg = new Message();
-    msg.content = dmkMsg.encode().toArrayBuffer();
-    msg.type = 20;
-    msg.timestamp = new Date().getTime();
-    // dmkMsg.user.id = user.id;
-    // dmkMsg.user.avatar = user.avatar;
-    // dmkMsg.user.displayName = user.displayName;
-    var byteBuffer = msg.encode();
-    return byteBuffer.toArrayBuffer();
+    var dmkMsg = Danmaku.create({ content: content });
+    var msg = Message.create({ content: Danmaku.encode(dmkMsg).finish(), type: 20, timestamp: new Date().getTime() });
+    return Message.encode(msg).finish();
 };
-
-export var decodeMsg = (msgBuf) => {
+function toBuffer(ab) {
+    var buf = new Buffer(ab.byteLength);
+    var view = new Uint8Array(ab);
+    for (var i = 0; i < buf.length; ++i) {
+        buf[i] = view[i];
+    }
+    return buf;
+}
+export var decodeMsg = (msgBuf1) => {
+    let msgBuf = toBuffer(msgBuf1)
+    console.log('msgBuf:', msgBuf);
     var msg = Message.decode(msgBuf);
-    // console.log(msg);
+    console.log('decodeMsg:', msg);
     if (msg.type == 20) {
         var dmk = Danmaku.decode(msg.content);
         console.log(dmk);

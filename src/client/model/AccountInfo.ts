@@ -1,3 +1,4 @@
+import { _proxy } from './MonitorModel';
 // var unirest = require('unirest');
 declare let $;
 export class AccountInfo {
@@ -11,12 +12,12 @@ export class AccountInfo {
     }
     _getMyProfile(token: string, callback) {
         let url = `https://api.weilutv.com/1/my/profile`
+        console.log('_getMyProfile:', token)
         $.ajax({
-            url: url,
+            url: _proxy(url),
             type: 'GET',
             headers: { Authorization: `Bearer ${token}` },
             success: (body) => {
-                console.log('get Live chat')
                 let displayName = body.result.displayName
                 callback(displayName)
             },
@@ -48,7 +49,7 @@ export class AccountInfo {
         }
 
         $.ajax({
-            url: url,
+            url: _proxy(url),
             type: 'POST',
             dataType: 'json',
             data: JSON.stringify({ username: ac, password: pw }),
@@ -72,25 +73,14 @@ export class AccountInfo {
     }
 
     initConf() {
-        // this.userArr = []
-        // var lineReader = require('readline').createInterface({
-        //     input: require('fs').createReadStream('resources/app/user.conf')
-        // });
-
-        // lineReader.on('line', (line) => {
-        //     let a = line.split(" ")
-        //     this.userArr.push({ name: a[1], pw: a[3], token: '', displayName: '' })
-        // })
-        //     .on('close', () => {
-        //         if (this.userArr.length) {
-        //             let firstAc = this.userArr[0]
-        //             this.login(firstAc.name, firstAc.pw, (token) => {
-        //                 this.lastToken = token;
-        //             })
-        //         }
-        //         console.log('user.conf', this.userArr)
-        //     });
-
+        this.userArr = store.get('userArr')
+        if (this.userArr && this.userArr.length) {
+            let firstAc = this.userArr[0]
+            this.login(firstAc.name, firstAc.pw, (token) => {
+                this.lastToken = token;
+            })
+        }
+        console.log('user.conf', this.userArr)
     }
     _updateToken(name, pw, token, displayName) {
         var isExist = false;

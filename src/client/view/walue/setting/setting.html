@@ -1,0 +1,33 @@
+<div class="box">
+    <input type="checkbox" id="checkbox1" v-model="isShowRecVideo" />
+    <label for="checkbox1">显示录制视频</label>
+    <p class="control">
+        <textarea class="textarea" v-model="acText" style="width:500px;height:220px">
+user 20000000053 pw vl12450
+user 20000000063 pw vl12450
+user 20000000073 pw vl12450
+user 20000000083 pw vl12450
+user 20000000093 pw vl12450
+        </textarea>
+    </p>
+    <a class="button is-success" @click='onSaveAc'>
+        <span class="icon">
+        <i class="fa fa-check"></i>
+        </span>
+        <span>Save</span>
+    </a>
+    <table class='table is-striped'>
+        <tr>
+            <th>#</th>
+            <th>帐号</th>
+            <th>密码</th>
+            <th>昵称</th>
+        </tr>
+        <tr v-for="(user,index) in userArr">
+            <td>{{index}}</td>
+            <td>{{user.name}}</td>
+            <td>{{user.pw}}</td>
+            <td>{{user.displayName}}</td>
+        </tr>
+    </table>
+</div>

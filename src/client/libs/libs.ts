@@ -5,9 +5,11 @@ require(`script!./bytebuffer.min.js`);
 require(`script!./protobuf.min.js`);
 require(`script!./vue/vue.min.js`);
 require(`script!./vue/vue-router.min.js`);
+require(`script!./store.min.js`);
 // declare let $
 declare let VueRouter;
 declare let Vue;
+declare let store;
 // console.log("lib:", $)
 // console.log("lib:", Vue)
 // console.log("lib:", VueRouter)
@@ -24,6 +26,7 @@ declare let Vue;
 window['$'] = $
 window['Vue'] = Vue
 window['VueRouter'] = VueRouter
+window['store'] = store
 // window['long'] = require(`script!./long.min.js`);
 // window['bytebuffer'] =require(`script!./bytebuffer.min.js`);
 // window['protobuf'] = require(`script!./protobuf.min.js`);

@@ -9,7 +9,7 @@ declare let $;
 class SettingModel {
     isShowRecVideo: boolean = false;
 }
-let _proxy = (url) => {
+export let _proxy = (url) => {
     return "/proxy?url=" + url
 }
 export class MonitorModel extends EventDispatcher {
@@ -50,6 +50,7 @@ export class MonitorModel extends EventDispatcher {
                 };
                 wsMap[idx].funcArr = [onMsgCallback];
                 wsMap[idx].onmessage = (evt) => {
+                    console.log("onmessage",evt);
                     var dmkMsg = decodeMsg(evt.data);
                     if (dmkMsg) {
                         let dmkContent = dmkMsg.content;
@@ -152,7 +153,7 @@ export class MonitorModel extends EventDispatcher {
         // let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MTEyNDU1NzUsImp0aSI6IjMzIiwiaWF0IjoxNDc5NzA5NTc1fQ.QEip_3zzPYFj1hlwIdLzJYqKDI9pQroEPEEEugl06tk"
         console.log("getLiveChatUrl", url)
         $.ajax({
-            url: url,
+            url: _proxy(url),
             type: 'GET',
             headers: { Authorization: `Bearer ${token}` },
             success: (body) => {

@@ -1,9 +1,26 @@
-<div class="PlayerVideoJS box" style="width:260px;height:700px;padding:5;margin-right:5">
+<div class="PlayerVideoJS box" style="width:260px;height:850px;padding:5;margin-right:5">
     <div class="row">{{roomInfo.title}} <br>主播：{{roomInfo.mc}}
     </div>
-    <a class="icon" style="position:relative;left:226px;top:-40px;height:0" href='#' @click='onClose'>
-        <i class="fa fa-window-close"></i>
-    </a>
+    <button class="delete" style="position:relative;left:226px;top:-40px;" @click='onClose'></button>
     <video class="video-js vjs-default-skin" controls width="250" height="440" data-setup="{}">
         </video>
+
+    <div class="col">
+        <div class="row">
+            <a href="#" @click="onClkAc"> 帐号： {{roomInfo.displayName?roomInfo.displayName:(roomInfo.selAc||"未登录")}}</a>
+            <p class="control">
+                <textarea class="textarea" v-model="dmkArr" style="height:220px" readonly="readonly"></textarea>
+            </p>
+        </div>
+        <div class="control">
+            <input placeholder="enter发送弹幕" style="width: 200px" class="input" @keyup.enter="onInputEnter" v-model="dmkContent">
+        </div>
+        <div class="box" v-if="isShowAclist" style="position:absolute;left:50px;top:530px;overflow-y:scroll;height:150px">
+            <div v-for="user in userArr">
+                <a href="#" @click="onSelAc(user.name)">
+                    {{ user.name }}:{{ user.displayName }}
+                </a>
+            </div>
+        </div>
+    </div>
 </div>

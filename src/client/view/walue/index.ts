@@ -1,3 +1,4 @@
+import { settingView } from './setting/Setting';
 import { Navbar } from './navbar/Navbar';
 import { monitorView } from './monitor/Monitor';
 // require(`script!./../../libs/jquery.min.js`);
@@ -29,7 +30,11 @@ var routes = [
     {
         path: '/', name: 'home',
         components: { default: monitorView, Navbar: Navbar }
-    }
+    },
+    {
+        path: '/setting', name: 'setting',
+        components: { default: settingView, Navbar: Navbar }
+    },
 ];
 
 declare var VueRouter;

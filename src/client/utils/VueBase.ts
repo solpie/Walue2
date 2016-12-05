@@ -9,10 +9,10 @@ export class VueBase {
     static String: any = {v: "", _: null};
     props = {};
     protected methods = {};
+    protected watch = {};
     template;
     $route;
     $el;
-
     // constructor() {
     //     super();
     //     VueBase.initProps(this);

@@ -139,10 +139,8 @@ export class MonitorModel extends EventDispatcher {
                 if (hasMore) {
                     this.getTopic(callback, cursor, topicArr);
                 }
-                else {
-                    if (callback)
-                        callback(topicArr)
-                }
+                if (callback)
+                    callback(topicArr)
             }
             else throw "get /1/topic/list failed";
         }

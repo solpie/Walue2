@@ -88,7 +88,7 @@
 /***/ 50:
 /***/ function(module, exports) {
 
-	module.exports = "<nav class=\"nav\">\r\n    <div class=\"nav-left\">\r\n        <a class=\"nav-item is-brand\" href=\"#\">\r\n            <img src=\"xxxHTMLLINKxxx0.56869940325595980.2184023175232066xxx\" alt=\"Walue\">\r\n        </a>\r\n    </div>\r\n\r\n    <div class=\"nav-center\">\r\n        <a class=\"nav-item\" href=\"#\">\r\n            <span class=\"icon\">\r\n        <i class=\"fa fa-github\"></i>\r\n      </span>\r\n        </a>\r\n        <a class=\"nav-item\" href=\"#\">\r\n            <span class=\"icon\">\r\n        <i class=\"fa fa-twitter\"></i>\r\n      </span>\r\n        </a>\r\n    </div>\r\n\r\n    <span class=\"nav-toggle\">\r\n    <span></span>\r\n    <span></span>\r\n    <span></span>\r\n    </span>\r\n\r\n    <div class=\"nav-right nav-menu\">\r\n        <a class=\"nav-item\" href=\"#\">\r\n      Setting\r\n    </a>\r\n    </div>\r\n</nav>";
+	module.exports = "<nav class=\"nav\">\r\n    <div class=\"nav-left\">\r\n        <a class=\"nav-item is-brand\" href=\"#\">\r\n            <span class=\"icon\">\r\n                <i class=\"fa fa-home\"></i>\r\n            </span>\r\n        </a>\r\n    </div>\r\n\r\n    <!--<div class=\"nav-center\">\r\n        <a class=\"nav-item\" href=\"#\">\r\n            <span class=\"icon\">\r\n        <i class=\"fa fa-github\"></i>\r\n      </span>\r\n        </a>\r\n        <a class=\"nav-item\" href=\"#\">\r\n            <span class=\"icon\">\r\n        <i class=\"fa fa-twitter\"></i>\r\n      </span>\r\n        </a>\r\n    </div>-->\r\n\r\n    <span class=\"nav-toggle\">\r\n    <span></span>\r\n    <span></span>\r\n    <span></span>\r\n    </span>\r\n\r\n    <div class=\"nav-right nav-menu\">\r\n        <a class=\"nav-item\" href=\"#\">\r\n      Setting\r\n    </a>\r\n    </div>\r\n</nav>";
 
 /***/ },
 
@@ -101,6 +101,7 @@
 	    function __() { this.constructor = d; }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
+	var Command_1 = __webpack_require__(56);
 	var Player_1 = __webpack_require__(52);
 	var MonitorModel_1 = __webpack_require__(55);
 	var JsFunc_1 = __webpack_require__(62);
@@ -140,6 +141,7 @@
 	            },
 	        };
 	        VueBase_1.VueBase.initProps(this);
+	        this.initEvent();
 	    }
 	    MonitorView.prototype.created = function () {
 	        console.log("created");
@@ -148,6 +150,19 @@
 	        this.playerArr = [];
 	        console.log("mounted");
 	        this.getTopicInfo();
+	    };
+	    MonitorView.prototype.initEvent = function () {
+	        var _this = this;
+	        exports.monitorModel.on(Command_1.CommandId.onClosePlayer, function (roomInfo) {
+	            var a = [];
+	            for (var _i = 0, _a = _this.playerArr; _i < _a.length; _i++) {
+	                var r = _a[_i];
+	                if (r != roomInfo) {
+	                    a.push(r);
+	                }
+	            }
+	            _this.playerArr = a;
+	        });
 	    };
 	    MonitorView.prototype.getTopicInfo = function () {
 	        var _this = this;
@@ -194,6 +209,14 @@
 	        this.template = __webpack_require__(54);
 	        this.roomInfo = VueBase_1.VueBase.PROP;
 	        this.idx = VueBase_1.VueBase.PROP;
+	        this.methods = {
+	            onClose: function () {
+	                console.log("onClose", this.player);
+	                this.player.dispose();
+	                $(this.$el).empty();
+	                $(this.$el).hide();
+	            }
+	        };
 	        VueBase_1.VueBase.initProps(this);
 	    }
 	    PlayerView.prototype.created = function () {
@@ -215,6 +238,7 @@
 	                console.log('awww...over so soon?');
 	            });
 	        });
+	        this.player = player;
 	    };
 	    return PlayerView;
 	}(VueBase_1.VueBase));
@@ -270,7 +294,7 @@
 /***/ 54:
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"PlayerVideoJS box\" style=\"width:260px;height:700px;padding:5;margin-right:5\">\r\n    <div class=\"row\">{{roomInfo.title}} <br>主播：{{roomInfo.mc}}\r\n    </div>\r\n    <video class=\"video-js vjs-default-skin\" controls width=\"250\" height=\"440\" data-setup=\"{}\">\r\n        </video>\r\n</div>";
+	module.exports = "<div class=\"PlayerVideoJS box\" style=\"width:260px;height:700px;padding:5;margin-right:5\">\r\n    <div class=\"row\">{{roomInfo.title}} <br>主播：{{roomInfo.mc}}\r\n    </div>\r\n    <a class=\"icon\" style=\"position:relative;left:226px;top:-40px;height:0\" href='#' @click='onClose'>\r\n        <i class=\"fa fa-window-close\"></i>\r\n    </a>\r\n    <video class=\"video-js vjs-default-skin\" controls width=\"250\" height=\"440\" data-setup=\"{}\">\r\n        </video>\r\n</div>";
 
 /***/ },
 
@@ -409,10 +433,8 @@
 	                if (hasMore) {
 	                    _this.getTopic(callback, cursor, topicArr);
 	                }
-	                else {
-	                    if (callback)
-	                        callback(topicArr);
-	                }
+	                if (callback)
+	                    callback(topicArr);
 	            }
 	            else
 	                throw "get /1/topic/list failed";
@@ -513,8 +535,9 @@
 	(function (CommandId) {
 	    CommandId[CommandId["ShowConsoleWin"] = 100000] = "ShowConsoleWin";
 	    CommandId[CommandId["openWs"] = 100001] = "openWs";
-	    CommandId[CommandId["beforeAcOpiontArr"] = 100002] = "beforeAcOpiontArr";
-	    CommandId[CommandId["afterAcOpiontArr"] = 100003] = "afterAcOpiontArr";
+	    CommandId[CommandId["onClosePlayer"] = 100002] = "onClosePlayer";
+	    CommandId[CommandId["beforeAcOpiontArr"] = 100003] = "beforeAcOpiontArr";
+	    CommandId[CommandId["afterAcOpiontArr"] = 100004] = "afterAcOpiontArr";
 	})(exports.CommandId || (exports.CommandId = {}));
 	var CommandId = exports.CommandId;
 	var CommandItem = (function () {
@@ -917,7 +940,7 @@
 /***/ 63:
 /***/ function(module, exports) {
 
-	module.exports = "<aside class=\"menu\">\r\n    <p class=\"menu-label\">\r\n        话题\r\n    </p>\r\n    <ul class=\"menu-list\">\r\n        <li v-for=\"(topic,index) in topicArr\">\r\n            <a href=\"#\" @click=\"onSelectTopic(topic.id)\">{{topic.topic}}</a>\r\n        </li>\r\n    </ul>\r\n\r\n    <div style=\"position: absolute;\r\n         display: inline-flex;\r\n         left: 270px;top:55px;\">\r\n        <vue v-for=\"(roomInfo, index) in playerArr\">\r\n            <player :idx=\"index\" :roomInfo='roomInfo'>\r\n            </player>\r\n        </vue>\r\n    </div>\r\n\r\n    <div style=\"overflow-y: scroll\">\r\n        <div id=\"roomList\" class=\"collection box\" style=\"position: absolute;left: 70px;top:60px;width: 800px;z-index: 999;display:none\">\r\n            <li v-for=\"(roomInfo,index) in roomArr\">\r\n                <div class=\"row\">{{roomInfo.title}} [{{roomInfo.mc}}]\r\n                    <a href=\"#\" @click=\"onOpenRoom(roomInfo)\" title=\"打开直播\">{{ roomInfo.shortUrl}}</a>\r\n                </div>\r\n            </li>\r\n        </div>\r\n    </div>\r\n</aside>";
+	module.exports = "<aside class=\"menu\">\r\n    <p class=\"menu-label\">\r\n        话题\r\n    </p>\r\n    <ul class=\"menu-list\">\r\n        <li v-for=\"(topic,index) in topicArr\">\r\n            <a href=\"#\" @click=\"onSelectTopic(topic.id)\">{{topic.topic}}</a>\r\n        </li>\r\n    </ul>\r\n\r\n    <div style=\"position: absolute;\r\n         display: inline-flex;\r\n         left: 270px;top:55px;\">\r\n        <player :idx=\"index\" :roomInfo='roomInfo' v-for=\"(roomInfo, index) in playerArr\">\r\n        </player>\r\n    </div>\r\n\r\n    <div style=\"overflow-y: scroll\">\r\n        <div id=\"roomList\" class=\"collection box\" style=\"position: absolute;left: 70px;top:60px;width: 800px;z-index: 999;display:none\">\r\n            <li v-for=\"(roomInfo,index) in roomArr\">\r\n                <div class=\"row\">{{roomInfo.title}} [{{roomInfo.mc}}]\r\n                    <a href=\"#\" @click=\"onOpenRoom(roomInfo)\" title=\"打开直播\">{{ roomInfo.shortUrl}}</a>\r\n                </div>\r\n            </li>\r\n        </div>\r\n    </div>\r\n</aside>";
 
 /***/ }
 

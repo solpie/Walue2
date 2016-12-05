@@ -2,6 +2,7 @@ import { EventDispatcher } from "../utils/EventDispatcher";
 export enum CommandId {
     ShowConsoleWin = 100000,
     openWs,
+    onClosePlayer,
     beforeAcOpiontArr,
     afterAcOpiontArr
 }

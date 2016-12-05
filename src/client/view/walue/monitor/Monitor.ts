@@ -1,3 +1,4 @@
+import { Command, CommandId } from '../../../model/Command';
 import { PlayerView, playerView } from './Player';
 import { RoomInfo } from '../../../model/RoomInfo';
 import { MonitorModel } from '../../../model/MonitorModel';
@@ -16,6 +17,7 @@ class MonitorView extends VueBase {
     constructor() {
         super();
         VueBase.initProps(this);
+        this.initEvent()
     }
     protected created() {
         console.log("created");
@@ -51,6 +53,18 @@ class MonitorView extends VueBase {
             this.playerArr.push(roomInfo)
             $('#roomList').hide()
         },
+    }
+
+    initEvent() {
+        monitorModel.on(CommandId.onClosePlayer, (roomInfo: RoomInfo) => {
+            let a = []
+            for (let r of this.playerArr) {
+                if (r != roomInfo) {
+                    a.push(r)
+                }
+            }
+            this.playerArr = a
+        })
     }
 
     getTopicInfo() {

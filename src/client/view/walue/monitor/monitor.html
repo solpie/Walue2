@@ -11,10 +11,8 @@
     <div style="position: absolute;
          display: inline-flex;
          left: 270px;top:55px;">
-        <vue v-for="(roomInfo, index) in playerArr">
-            <player :idx="index" :roomInfo='roomInfo'>
-            </player>
-        </vue>
+        <player :idx="index" :roomInfo='roomInfo' v-for="(roomInfo, index) in playerArr">
+        </player>
     </div>
 
     <div style="overflow-y: scroll">

@@ -2284,6 +2284,7 @@
 	                $(this.$el).hide();
 	            },
 	            onClkAc: function () {
+	                this.userArr = MonitorModel_1.monitorModel.accountInfo.userArr || store.get('userArr');
 	                this.isShowAclist = true;
 	            },
 	            onInputEnter: function (e) {
@@ -2354,7 +2355,6 @@
 	    };
 	    PlayerView.prototype.mounted = function () {
 	        var _this = this;
-	        this.userArr = MonitorModel_1.monitorModel.accountInfo.userArr;
 	        var playerId = 'player' + this.roomInfo.id;
 	        console.log("mounted player", playerId);
 	        var $player = $(this.$el).find('video').attr('id', playerId);

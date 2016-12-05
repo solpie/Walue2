@@ -13,7 +13,7 @@ export class PlayerView extends VueBase {
     dmkContent = VueBase.PROP
     isShowAclist = VueBase.PROP
     userArr = VueBase.PROP
-    
+
     constructor() {
         super();
         VueBase.initProps(this);
@@ -32,14 +32,13 @@ export class PlayerView extends VueBase {
     }
 
     onDmkArrUpdate(v) {
-        console.log("onDmkArrUpdate",v);
+        console.log("onDmkArrUpdate", v);
         this.dmkArr = v;
         var $textarea = $(this.$el).find("textarea")[0];
         $textarea.scrollTop = $textarea.scrollHeight;
     }
 
     protected mounted() {
-        this.userArr = monitorModel.accountInfo.userArr
 
         let playerId = 'player' + this.roomInfo.id;
         console.log("mounted player", playerId)
@@ -71,17 +70,19 @@ export class PlayerView extends VueBase {
             $(this.$el).hide()
         },
         onClkAc() {
+            
+            this.userArr = monitorModel.accountInfo.userArr || store.get('userArr')
             this.isShowAclist = true;
         },
         onInputEnter(e) {
-            console.log('onEnter',e);
+            console.log('onEnter', e);
             if (e.keyIdentifier && e.keyIdentifier == "Enter") {
                 // if (e.key && e.key == "Enter" && e.ctrlKey) {
                 this.onSendDmk();
             }
         },
         onSendDmk() {
-            console.log('onSendDmk',this.roomInfo, this.dmkContent, monitorModel.nameTokenMap, monitorModel.wsMap);
+            console.log('onSendDmk', this.roomInfo, this.dmkContent, monitorModel.nameTokenMap, monitorModel.wsMap);
             // var acObj = this.acSelected
             var ac = this.roomInfo.selAc
             if (ac) {

@@ -2,12 +2,12 @@
     <div class="row">{{roomInfo.title}} <br>主播：{{roomInfo.mc}}
     </div>
     <button class="delete" style="position:relative;left:226px;top:-40px;" @click='onClose'></button>
-    <video class="video-js vjs-default-skin" controls width="250" height="440" data-setup="{}">
+    <video class="video-js vjs-default-skin vjs-fluid" controls width="250" height="440" data-setup="{}">
         </video>
 
     <div class="col">
         <div class="row">
-            <a href="#" @click="onClkAc"> 帐号： {{roomInfo.displayName?roomInfo.displayName:(roomInfo.selAc||"未登录")}}</a>
+            <a href="#" @click="onClkAc"> 帐号： {{roomInfo.displayName||(roomInfo.selAc||"未登录")}}</a>
             <p class="control">
                 <textarea class="textarea" v-model="dmkArr" style="height:220px" readonly="readonly"></textarea>
             </p>

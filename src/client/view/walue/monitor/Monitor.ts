@@ -51,6 +51,9 @@ class MonitorView extends VueBase {
             // if (!this.playerArr)
             //     this.playerArr = []
             this.playerArr.push(roomInfo)
+            this.onCloseRoomList()
+        },
+        onCloseRoomList() {
             $('#roomList').hide()
         },
     }

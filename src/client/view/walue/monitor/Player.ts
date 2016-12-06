@@ -45,7 +45,13 @@ export class PlayerView extends VueBase {
         let $player = $(this.$el).find('video').attr('id', playerId)
         var player = videojs(playerId, {
             // controls: true,
-            autoplay: true
+            autoplay: true,
+            autoHeight: true,
+            controlBar: {
+                progressControl: false,
+                remainingTimeDisplay: false,
+                durationDisplay: false
+            }
         }, () => {
             console.log('Good to go!');
             // let url1 = "rtmp://rtmp.icassi.us/live/test3"
@@ -58,6 +64,13 @@ export class PlayerView extends VueBase {
             player.on('ended', function () {
                 console.log('awww...over so soon?');
             });
+
+            player.on('play', () => {
+                console.log('on play');
+                
+                player.height = 440
+
+            })
         });
         this.player = player
 
@@ -70,7 +83,6 @@ export class PlayerView extends VueBase {
             $(this.$el).hide()
         },
         onClkAc() {
-            
             this.userArr = monitorModel.accountInfo.userArr || store.get('userArr')
             this.isShowAclist = true;
         },
@@ -108,7 +120,6 @@ export class PlayerView extends VueBase {
         },
         onSelAc(ac) {
             this.isShowAclist = false
-
             console.log('onSelAc', ac)
             this.roomInfo.selAc = ac
             var token = monitorModel.nameTokenMap[ac];

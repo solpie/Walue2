@@ -2199,6 +2199,9 @@
 	            onOpenRoom: function (roomInfo) {
 	                console.log(roomInfo);
 	                this.playerArr.push(roomInfo);
+	                this.onCloseRoomList();
+	            },
+	            onCloseRoomList: function () {
 	                $('#roomList').hide();
 	            },
 	        };
@@ -2359,7 +2362,13 @@
 	        console.log("mounted player", playerId);
 	        var $player = $(this.$el).find('video').attr('id', playerId);
 	        var player = videojs(playerId, {
-	            autoplay: true
+	            autoplay: true,
+	            autoHeight: true,
+	            controlBar: {
+	                progressControl: false,
+	                remainingTimeDisplay: false,
+	                durationDisplay: false
+	            }
 	        }, function () {
 	            console.log('Good to go!');
 	            var url1 = _this.roomInfo.rtmp;
@@ -2367,6 +2376,10 @@
 	            player.play();
 	            player.on('ended', function () {
 	                console.log('awww...over so soon?');
+	            });
+	            player.on('play', function () {
+	                console.log('on play');
+	                player.height = 440;
 	            });
 	        });
 	        this.player = player;
@@ -2424,7 +2437,7 @@
 /* 54 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"PlayerVideoJS box\" style=\"width:260px;height:850px;padding:5;margin-right:5\">\r\n    <div class=\"row\">{{roomInfo.title}} <br>主播：{{roomInfo.mc}}\r\n    </div>\r\n    <button class=\"delete\" style=\"position:relative;left:226px;top:-40px;\" @click='onClose'></button>\r\n    <video class=\"video-js vjs-default-skin\" controls width=\"250\" height=\"440\" data-setup=\"{}\">\r\n        </video>\r\n\r\n    <div class=\"col\">\r\n        <div class=\"row\">\r\n            <a href=\"#\" @click=\"onClkAc\"> 帐号： {{roomInfo.displayName?roomInfo.displayName:(roomInfo.selAc||\"未登录\")}}</a>\r\n            <p class=\"control\">\r\n                <textarea class=\"textarea\" v-model=\"dmkArr\" style=\"height:220px\" readonly=\"readonly\"></textarea>\r\n            </p>\r\n        </div>\r\n        <div class=\"control\">\r\n            <input placeholder=\"enter发送弹幕\" style=\"width: 200px\" class=\"input\" @keyup.enter=\"onInputEnter\" v-model=\"dmkContent\">\r\n        </div>\r\n        <div class=\"box\" v-if=\"isShowAclist\" style=\"position:absolute;left:50px;top:530px;overflow-y:scroll;height:150px\">\r\n            <div v-for=\"user in userArr\">\r\n                <a href=\"#\" @click=\"onSelAc(user.name)\">\r\n                    {{ user.name }}:{{ user.displayName }}\r\n                </a>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>";
+	module.exports = "<div class=\"PlayerVideoJS box\" style=\"width:260px;height:850px;padding:5;margin-right:5\">\r\n    <div class=\"row\">{{roomInfo.title}} <br>主播：{{roomInfo.mc}}\r\n    </div>\r\n    <button class=\"delete\" style=\"position:relative;left:226px;top:-40px;\" @click='onClose'></button>\r\n    <video class=\"video-js vjs-default-skin vjs-fluid\" controls width=\"250\" height=\"440\" data-setup=\"{}\">\r\n        </video>\r\n\r\n    <div class=\"col\">\r\n        <div class=\"row\">\r\n            <a href=\"#\" @click=\"onClkAc\"> 帐号： {{roomInfo.displayName||(roomInfo.selAc||\"未登录\")}}</a>\r\n            <p class=\"control\">\r\n                <textarea class=\"textarea\" v-model=\"dmkArr\" style=\"height:220px\" readonly=\"readonly\"></textarea>\r\n            </p>\r\n        </div>\r\n        <div class=\"control\">\r\n            <input placeholder=\"enter发送弹幕\" style=\"width: 200px\" class=\"input\" @keyup.enter=\"onInputEnter\" v-model=\"dmkContent\">\r\n        </div>\r\n        <div class=\"box\" v-if=\"isShowAclist\" style=\"position:absolute;left:50px;top:530px;overflow-y:scroll;height:150px\">\r\n            <div v-for=\"user in userArr\">\r\n                <a href=\"#\" @click=\"onSelAc(user.name)\">\r\n                    {{ user.name }}:{{ user.displayName }}\r\n                </a>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>";
 
 /***/ },
 /* 55 */
@@ -3080,7 +3093,7 @@
 /* 63 */
 /***/ function(module, exports) {
 
-	module.exports = "<aside class=\"menu\">\r\n    <p class=\"menu-label\">\r\n        话题\r\n    </p>\r\n    <ul class=\"menu-list\" style=\"width:270px\">\r\n        <li v-for=\"(topic,index) in topicArr\">\r\n            <a href=\"#\" @click=\"onSelectTopic(topic.id)\">{{topic.topic}}</a>\r\n        </li>\r\n    </ul>\r\n\r\n    <div style=\"position: absolute;\r\n         display: inline-flex;\r\n         left: 270px;top:55px;\">\r\n        <player :idx=\"index\" :roomInfo='roomInfo' v-for=\"(roomInfo, index) in playerArr\">\r\n        </player>\r\n    </div>\r\n\r\n    <div style=\"overflow-y: scroll\">\r\n        <div id=\"roomList\" class=\"collection box\" style=\"position: absolute;left: 70px;top:60px;width: 800px;z-index: 999;display:none\">\r\n            <li v-for=\"(roomInfo,index) in roomArr\">\r\n                <div class=\"row\">{{roomInfo.title}} [{{roomInfo.mc}}]\r\n                    <a href=\"#\" @click=\"onOpenRoom(roomInfo)\" title=\"打开直播\">{{ roomInfo.shortUrl}}</a>\r\n                </div>\r\n            </li>\r\n        </div>\r\n    </div>\r\n</aside>";
+	module.exports = "<aside class=\"menu\">\r\n    <p class=\"menu-label\">\r\n        <h1>话题</h1>\r\n    </p>\r\n    <ul class=\"menu-list\" style=\"width:270px\">\r\n        <li v-for=\"(topic,index) in topicArr\">\r\n            <a href=\"#\" @click=\"onSelectTopic(topic.id)\">{{topic.topic}}</a>\r\n        </li>\r\n    </ul>\r\n\r\n    <div style=\"position: absolute;\r\n         display: inline-flex;\r\n         left: 270px;top:55px;\">\r\n        <player :idx=\"index\" :roomInfo='roomInfo' v-for=\"(roomInfo, index) in playerArr\">\r\n        </player>\r\n    </div>\r\n\r\n    <div style=\"overflow-y: scroll\">\r\n        <div id=\"roomList\" class=\"collection box\" style=\"position: absolute;left: 70px;top:60px;width: 800px;z-index: 999;display:none\">\r\n            <button class=\"delete\" @click='onCloseRoomList'></button>\r\n            <li v-for=\"(roomInfo,index) in roomArr\">\r\n                <div class=\"row\">{{roomInfo.title}} [{{roomInfo.mc}}]\r\n                    <a href=\"#\" @click=\"onOpenRoom(roomInfo)\" title=\"打开直播\">{{ roomInfo.shortUrl}}</a>\r\n                </div>\r\n            </li>\r\n        </div>\r\n    </div>\r\n</aside>";
 
 /***/ },
 /* 64 */,

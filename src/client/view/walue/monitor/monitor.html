@@ -1,6 +1,6 @@
 <aside class="menu">
     <p class="menu-label">
-        话题
+        <h1>话题</h1>
     </p>
     <ul class="menu-list" style="width:270px">
         <li v-for="(topic,index) in topicArr">
@@ -17,6 +17,7 @@
 
     <div style="overflow-y: scroll">
         <div id="roomList" class="collection box" style="position: absolute;left: 70px;top:60px;width: 800px;z-index: 999;display:none">
+            <button class="delete" @click='onCloseRoomList'></button>
             <li v-for="(roomInfo,index) in roomArr">
                 <div class="row">{{roomInfo.title}} [{{roomInfo.mc}}]
                     <a href="#" @click="onOpenRoom(roomInfo)" title="打开直播">{{ roomInfo.shortUrl}}</a>

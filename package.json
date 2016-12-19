@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "description": "",
     "scripts": {
-        "app": "python src/RKB.py",
+        "app": "python src/server/server.py",
         "build": "pyinstaller src/server/server.py -F --upx-dir c:/bin/upx391w --noupx",
         "view": "webpack --watch --progress --profile --colors --display-error-details --display-cached --config webpack.view.js",
         "test": "echo \"Error: no test specified\" && exit 1"

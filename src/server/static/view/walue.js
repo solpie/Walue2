@@ -45,9 +45,9 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var Setting_1 = __webpack_require__(66);
-	var Navbar_1 = __webpack_require__(49);
-	var Monitor_1 = __webpack_require__(51);
+	var Setting_1 = __webpack_require__(51);
+	var Navbar_1 = __webpack_require__(61);
+	var Monitor_1 = __webpack_require__(63);
 	var version = '16.11.25.4';
 	document.title = "舞里由衣 ver " + version;
 	var routes = [
@@ -93,7 +93,9 @@
 /* 18 */,
 /* 19 */,
 /* 20 */,
-/* 21 */
+/* 21 */,
+/* 22 */,
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(Buffer, global) {/*!
@@ -106,9 +108,9 @@
 	
 	'use strict'
 	
-	var base64 = __webpack_require__(22)
-	var ieee754 = __webpack_require__(23)
-	var isArray = __webpack_require__(24)
+	var base64 = __webpack_require__(24)
+	var ieee754 = __webpack_require__(25)
+	var isArray = __webpack_require__(26)
 	
 	exports.Buffer = Buffer
 	exports.SlowBuffer = SlowBuffer
@@ -1886,10 +1888,10 @@
 	  return val !== val // eslint-disable-line no-self-compare
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(21).Buffer, (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(23).Buffer, (function() { return this; }())))
 
 /***/ },
-/* 22 */
+/* 24 */
 /***/ function(module, exports) {
 
 	'use strict'
@@ -2009,7 +2011,7 @@
 
 
 /***/ },
-/* 23 */
+/* 25 */
 /***/ function(module, exports) {
 
 	exports.read = function (buffer, offset, isLE, mLen, nBytes) {
@@ -2099,7 +2101,7 @@
 
 
 /***/ },
-/* 24 */
+/* 26 */
 /***/ function(module, exports) {
 
 	var toString = {}.toString;
@@ -2110,8 +2112,6 @@
 
 
 /***/ },
-/* 25 */,
-/* 26 */,
 /* 27 */,
 /* 28 */,
 /* 29 */,
@@ -2134,26 +2134,8 @@
 /* 46 */,
 /* 47 */,
 /* 48 */,
-/* 49 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	exports.Navbar = {
-	    props: {
-	        active: {},
-	    },
-	    template: __webpack_require__(50),
-	    methods: {}
-	};
-
-
-/***/ },
-/* 50 */
-/***/ function(module, exports) {
-
-	module.exports = "<nav class=\"nav\">\r\n    <div class=\"nav-left\">\r\n        <a class=\"nav-item is-brand\" href=\"#\">\r\n            <span class=\"icon\">\r\n                <i class=\"fa fa-home\"></i>\r\n            </span>\r\n        </a>\r\n    </div>\r\n\r\n    <!--<div class=\"nav-center\">\r\n        <a class=\"nav-item\" href=\"#\">\r\n            <span class=\"icon\">\r\n        <i class=\"fa fa-github\"></i>\r\n      </span>\r\n        </a>\r\n        <a class=\"nav-item\" href=\"#\">\r\n            <span class=\"icon\">\r\n        <i class=\"fa fa-twitter\"></i>\r\n      </span>\r\n        </a>\r\n    </div>-->\r\n\r\n    <span class=\"nav-toggle\">\r\n    <span></span>\r\n    <span></span>\r\n    <span></span>\r\n    </span>\r\n\r\n    <div class=\"nav-right nav-menu\">\r\n        <router-link :to=\"{ name: 'setting'}\">\r\n            <!--<a class=\"nav-item\">-->\r\n            Setting\r\n            <!--</a>-->\r\n        </router-link>\r\n    </div>\r\n</nav>";
-
-/***/ },
+/* 49 */,
+/* 50 */,
 /* 51 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -2163,96 +2145,52 @@
 	    function __() { this.constructor = d; }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
-	var Command_1 = __webpack_require__(56);
-	var Player_1 = __webpack_require__(52);
-	var MonitorModel_1 = __webpack_require__(55);
-	var JsFunc_1 = __webpack_require__(62);
-	var VueBase_1 = __webpack_require__(53);
-	exports.monitorModel = new MonitorModel_1.MonitorModel();
-	var MonitorView = (function (_super) {
-	    __extends(MonitorView, _super);
-	    function MonitorView() {
+	var MonitorModel_1 = __webpack_require__(52);
+	var VueBase_1 = __webpack_require__(59);
+	var SettingView = (function (_super) {
+	    __extends(SettingView, _super);
+	    function SettingView() {
 	        _super.call(this);
-	        this.template = __webpack_require__(63);
-	        this.topicArr = VueBase_1.VueBase.PROP;
-	        this.roomArr = VueBase_1.VueBase.PROP;
-	        this.playerArr = VueBase_1.VueBase.PROP;
-	        this.components = {
-	            'Player': Player_1.playerView,
+	        this.isShowRecVideo = VueBase_1.VueBase.PROP;
+	        this.acText = VueBase_1.VueBase.PROP;
+	        this.userArr = VueBase_1.VueBase.PROP;
+	        this.template = __webpack_require__(60);
+	        this.watch = {
+	            isShowRecVideo: 'onIsShowRecVideo'
 	        };
 	        this.methods = {
-	            onSelectTopic: function (topicId) {
-	                var _this = this;
-	                console.log("onSelectTopic:", topicId);
-	                exports.monitorModel.getLiveList(topicId, function (roomArr) {
-	                    _this.roomArr = roomArr;
-	                    for (var i = 0; i < _this.roomArr.length; i++) {
-	                        var roomInfo = _this.roomArr[i];
-	                        var urlLen = roomInfo.rtmp.length;
-	                        roomInfo.shortUrl = roomInfo.rtmp.substr(0, 30)
-	                            + "..." + roomInfo.rtmp.substr(urlLen - 11, 11);
-	                    }
-	                    console.log('roomArr', _this.roomArr);
-	                    $('#roomList').show();
-	                });
+	            onIsShowRecVideo: function (v) {
+	                MonitorModel_1.monitorModel.settingModel.isShowRecVideo = this.isShowRecVideo;
+	                console.log('onIsShowRecVideo', v);
 	            },
-	            onOpenRoom: function (roomInfo) {
-	                console.log(roomInfo);
-	                this.playerArr.push(roomInfo);
-	                this.onCloseRoomList();
-	            },
-	            onCloseRoomList: function () {
-	                $('#roomList').hide();
+	            onSaveAc: function () {
+	                var lines = this.acText.split('\n');
+	                var userArr = [];
+	                for (var _i = 0, lines_1 = lines; _i < lines_1.length; _i++) {
+	                    var l = lines_1[_i];
+	                    var a = l.split(' ');
+	                    userArr.push({ name: a[1], pw: a[3], token: '', displayName: '' });
+	                }
+	                this.userArr = userArr;
+	                if (userArr.length) {
+	                    store.set('userArr', userArr);
+	                    console.log('onSaveAc', userArr);
+	                }
+	                else
+	                    alert("格式不对！");
 	            },
 	        };
 	        VueBase_1.VueBase.initProps(this);
-	        this.initEvent();
 	    }
-	    MonitorView.prototype.created = function () {
-	        console.log("created");
+	    SettingView.prototype.mounted = function () {
+	        console.log('SettingView mounted');
+	        this.isShowRecVideo = MonitorModel_1.monitorModel.settingModel.isShowRecVideo;
+	        this.userArr = MonitorModel_1.monitorModel.accountInfo.userArr;
 	    };
-	    MonitorView.prototype.mounted = function () {
-	        this.playerArr = [];
-	        console.log("mounted");
-	        this.getTopicInfo();
-	    };
-	    MonitorView.prototype.initEvent = function () {
-	        var _this = this;
-	        exports.monitorModel.on(Command_1.CommandId.onClosePlayer, function (roomInfo) {
-	            var a = [];
-	            for (var _i = 0, _a = _this.playerArr; _i < _a.length; _i++) {
-	                var r = _a[_i];
-	                if (r != roomInfo) {
-	                    a.push(r);
-	                }
-	            }
-	            _this.playerArr = a;
-	        });
-	    };
-	    MonitorView.prototype.getTopicInfo = function () {
-	        var _this = this;
-	        exports.monitorModel.getTopic(function (topicInfoArr) {
-	            var a = topicInfoArr.sort(JsFunc_1.descendingProp('liveCount'));
-	            var actTopic = [];
-	            var disActTopic = [];
-	            for (var i = 0; i < a.length; i++) {
-	                var topicObj = a[i];
-	                if (topicObj.hasActiveLive) {
-	                    actTopic.push(topicObj);
-	                }
-	                else
-	                    disActTopic.push(topicObj);
-	            }
-	            if (exports.monitorModel.settingModel.isShowRecVideo)
-	                _this.topicArr = actTopic.concat(disActTopic);
-	            else
-	                _this.topicArr = actTopic.concat();
-	            console.log('topicInfo', _this.topicArr);
-	        });
-	    };
-	    return MonitorView;
+	    return SettingView;
 	}(VueBase_1.VueBase));
-	exports.monitorView = new MonitorView();
+	;
+	exports.settingView = new SettingView();
 
 
 /***/ },
@@ -2265,196 +2203,12 @@
 	    function __() { this.constructor = d; }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
-	var DmkInfo_1 = __webpack_require__(61);
-	var MonitorModel_1 = __webpack_require__(55);
-	var VueBase_1 = __webpack_require__(53);
-	var PlayerView = (function (_super) {
-	    __extends(PlayerView, _super);
-	    function PlayerView() {
-	        _super.call(this);
-	        this.template = __webpack_require__(54);
-	        this.roomInfo = VueBase_1.VueBase.PROP;
-	        this.idx = VueBase_1.VueBase.PROP;
-	        this.dmkArr = VueBase_1.VueBase.PROP;
-	        this.dmkContent = VueBase_1.VueBase.PROP;
-	        this.isShowAclist = VueBase_1.VueBase.PROP;
-	        this.userArr = VueBase_1.VueBase.PROP;
-	        this.methods = {
-	            onClose: function () {
-	                console.log("onClose", this.player);
-	                this.player.dispose();
-	                $(this.$el).empty();
-	                $(this.$el).hide();
-	            },
-	            onClkAc: function () {
-	                this.userArr = MonitorModel_1.monitorModel.accountInfo.userArr || store.get('userArr');
-	                this.isShowAclist = true;
-	            },
-	            onInputEnter: function (e) {
-	                console.log('onEnter', e);
-	                if (e.keyIdentifier && e.keyIdentifier == "Enter") {
-	                    this.onSendDmk();
-	                }
-	            },
-	            onSendDmk: function () {
-	                console.log('onSendDmk', this.roomInfo, this.dmkContent, MonitorModel_1.monitorModel.nameTokenMap, MonitorModel_1.monitorModel.wsMap);
-	                var ac = this.roomInfo.selAc;
-	                if (ac) {
-	                    var token = MonitorModel_1.monitorModel.nameTokenMap[ac];
-	                    var wsIdx = MonitorModel_1.MonitorModel.getWsIdx(this.roomInfo.id, token);
-	                    var ws = MonitorModel_1.monitorModel.wsMap[wsIdx];
-	                    console.log('getWsIdx', ws, wsIdx);
-	                    if (ws) {
-	                        var roomInfo = MonitorModel_1.monitorModel.liveMap[this.roomInfo.id];
-	                        var dmk = this.dmkContent;
-	                        this.dmkContent = '';
-	                        if (dmk.length > 0 && dmk[0] != " ") {
-	                            var packMsg = DmkInfo_1.packDmk(dmk, null);
-	                            ws.send(packMsg);
-	                        }
-	                    }
-	                    else {
-	                        alert('发送失败：请登录');
-	                    }
-	                }
-	            },
-	            onSelAc: function (ac) {
-	                var _this = this;
-	                this.isShowAclist = false;
-	                console.log('onSelAc', ac);
-	                this.roomInfo.selAc = ac;
-	                var token = MonitorModel_1.monitorModel.nameTokenMap[ac];
-	                if (!token) {
-	                    MonitorModel_1.monitorModel.accountInfo.login(ac, null, function (loginToken) {
-	                        MonitorModel_1.monitorModel.nameTokenMap[ac] = loginToken;
-	                        MonitorModel_1.monitorModel.openChatWs(_this.roomInfo, loginToken, _this.onDmkArrUpdate);
-	                        _this.roomInfo.displayName = MonitorModel_1.monitorModel.accountInfo.getDisplayName(ac);
-	                    });
-	                }
-	                else {
-	                    this.roomInfo.displayName = MonitorModel_1.monitorModel.accountInfo.getDisplayName(ac);
-	                    this.makeWs(token);
-	                }
-	            },
-	        };
-	        VueBase_1.VueBase.initProps(this);
-	    }
-	    PlayerView.prototype.created = function () {
-	        console.log("created player:", this.idx, this.roomInfo);
-	    };
-	    PlayerView.prototype.makeWs = function (token) {
-	        console.log("makeWs", token);
-	        var wsIdx = MonitorModel_1.MonitorModel.getWsIdx(this.roomInfo.id, token);
-	        var ws = MonitorModel_1.monitorModel.wsMap[wsIdx];
-	        if (!ws) {
-	            MonitorModel_1.monitorModel.openChatWs(this.roomInfo, token, this.onDmkArrUpdate);
-	        }
-	    };
-	    PlayerView.prototype.onDmkArrUpdate = function (v) {
-	        console.log("onDmkArrUpdate", v);
-	        this.dmkArr = v;
-	        var $textarea = $(this.$el).find("textarea")[0];
-	        $textarea.scrollTop = $textarea.scrollHeight;
-	    };
-	    PlayerView.prototype.mounted = function () {
-	        var _this = this;
-	        var playerId = 'player' + this.roomInfo.id;
-	        console.log("mounted player", playerId);
-	        var $player = $(this.$el).find('video').attr('id', playerId);
-	        var player = videojs(playerId, {
-	            autoplay: true,
-	            autoHeight: true,
-	            controlBar: {
-	                progressControl: false,
-	                remainingTimeDisplay: false,
-	                durationDisplay: false
-	            }
-	        }, function () {
-	            console.log('Good to go!');
-	            var url1 = _this.roomInfo.rtmp;
-	            player.src({ src: url1, type: "video/flv" });
-	            player.play();
-	            player.on('ended', function () {
-	                console.log('awww...over so soon?');
-	            });
-	            player.on('play', function () {
-	                console.log('on play');
-	                player.height = 440;
-	            });
-	        });
-	        this.player = player;
-	    };
-	    return PlayerView;
-	}(VueBase_1.VueBase));
-	exports.PlayerView = PlayerView;
-	exports.playerView = new PlayerView();
-
-
-/***/ },
-/* 53 */
-/***/ function(module, exports) {
-
-	"use strict";
-	var VueBase = (function () {
-	    function VueBase() {
-	        this.props = {};
-	        this.methods = {};
-	        this.watch = {};
-	    }
-	    VueBase.initProps = function (subClassObj) {
-	        for (var key in subClassObj) {
-	            var o = subClassObj[key];
-	            if (o.hasOwnProperty("_")) {
-	                if (o.hasOwnProperty("v")) {
-	                    subClassObj.props[key] = o.v;
-	                }
-	                else if (o.hasOwnProperty("f")) {
-	                    subClassObj.methods[key] = o.f;
-	                }
-	            }
-	            else {
-	                var isClsFunc = o instanceof Function;
-	                if (isClsFunc) {
-	                    subClassObj.methods[key] = o;
-	                }
-	            }
-	        }
-	    };
-	    VueBase.prototype.created = function () {
-	    };
-	    VueBase.prototype.mounted = function () {
-	    };
-	    VueBase.PROP = { v: null, _: null };
-	    VueBase.Dict = { v: {}, _: null };
-	    VueBase.Number = { v: 0, _: null };
-	    VueBase.String = { v: "", _: null };
-	    return VueBase;
-	}());
-	exports.VueBase = VueBase;
-
-
-/***/ },
-/* 54 */
-/***/ function(module, exports) {
-
-	module.exports = "<div class=\"PlayerVideoJS box\" style=\"width:260px;height:850px;padding:5;margin-right:5\">\r\n    <div class=\"row\">{{roomInfo.title}} <br>主播：{{roomInfo.mc}}\r\n    </div>\r\n    <button class=\"delete\" style=\"position:relative;left:226px;top:-40px;\" @click='onClose'></button>\r\n    <video class=\"video-js vjs-default-skin vjs-fluid\" controls width=\"250\" height=\"440\" data-setup=\"{}\">\r\n        </video>\r\n\r\n    <div class=\"col\">\r\n        <div class=\"row\">\r\n            <a href=\"#\" @click=\"onClkAc\"> 帐号： {{roomInfo.displayName||(roomInfo.selAc||\"未登录\")}}</a>\r\n            <p class=\"control\">\r\n                <textarea class=\"textarea\" v-model=\"dmkArr\" style=\"height:220px\" readonly=\"readonly\"></textarea>\r\n            </p>\r\n        </div>\r\n        <div class=\"control\">\r\n            <input placeholder=\"enter发送弹幕\" style=\"width: 200px\" class=\"input\" @keyup.enter=\"onInputEnter\" v-model=\"dmkContent\">\r\n        </div>\r\n        <div class=\"box\" v-if=\"isShowAclist\" style=\"position:absolute;left:50px;top:530px;overflow-y:scroll;height:150px\">\r\n            <div v-for=\"user in userArr\">\r\n                <a href=\"#\" @click=\"onSelAc(user.name)\">\r\n                    {{ user.name }}:{{ user.displayName }}\r\n                </a>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>";
-
-/***/ },
-/* 55 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var __extends = (this && this.__extends) || function (d, b) {
-	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	    function __() { this.constructor = d; }
-	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-	};
-	var Command_1 = __webpack_require__(56);
-	var EventDispatcher_1 = __webpack_require__(57);
-	var AccountInfo_1 = __webpack_require__(58);
-	var TopicInfo_1 = __webpack_require__(59);
-	var RoomInfo_1 = __webpack_require__(60);
-	var DmkInfo_1 = __webpack_require__(61);
+	var Command_1 = __webpack_require__(53);
+	var EventDispatcher_1 = __webpack_require__(54);
+	var AccountInfo_1 = __webpack_require__(55);
+	var TopicInfo_1 = __webpack_require__(56);
+	var RoomInfo_1 = __webpack_require__(57);
+	var DmkInfo_1 = __webpack_require__(58);
 	var SettingModel = (function () {
 	    function SettingModel() {
 	        this.isShowRecVideo = false;
@@ -2664,7 +2418,7 @@
 
 
 /***/ },
-/* 56 */
+/* 53 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2673,7 +2427,7 @@
 	    function __() { this.constructor = d; }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
-	var EventDispatcher_1 = __webpack_require__(57);
+	var EventDispatcher_1 = __webpack_require__(54);
 	(function (CommandId) {
 	    CommandId[CommandId["ShowConsoleWin"] = 100000] = "ShowConsoleWin";
 	    CommandId[CommandId["openWs"] = 100001] = "openWs";
@@ -2700,7 +2454,7 @@
 
 
 /***/ },
-/* 57 */
+/* 54 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -2772,11 +2526,11 @@
 
 
 /***/ },
-/* 58 */
+/* 55 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var MonitorModel_1 = __webpack_require__(55);
+	var MonitorModel_1 = __webpack_require__(52);
 	var AccountInfo = (function () {
 	    function AccountInfo() {
 	        this.userArr = [
@@ -2881,7 +2635,7 @@
 
 
 /***/ },
-/* 59 */
+/* 56 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -2894,7 +2648,7 @@
 
 
 /***/ },
-/* 60 */
+/* 57 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -2907,7 +2661,7 @@
 
 
 /***/ },
-/* 61 */
+/* 58 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(Buffer) {"use strict";
@@ -2953,10 +2707,322 @@
 	}());
 	exports.Danmaku2 = Danmaku2;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(21).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(23).Buffer))
+
+/***/ },
+/* 59 */
+/***/ function(module, exports) {
+
+	"use strict";
+	var VueBase = (function () {
+	    function VueBase() {
+	        this.props = {};
+	        this.methods = {};
+	        this.watch = {};
+	    }
+	    VueBase.initProps = function (subClassObj) {
+	        for (var key in subClassObj) {
+	            var o = subClassObj[key];
+	            if (o.hasOwnProperty("_")) {
+	                if (o.hasOwnProperty("v")) {
+	                    subClassObj.props[key] = o.v;
+	                }
+	                else if (o.hasOwnProperty("f")) {
+	                    subClassObj.methods[key] = o.f;
+	                }
+	            }
+	            else {
+	                var isClsFunc = o instanceof Function;
+	                if (isClsFunc) {
+	                    subClassObj.methods[key] = o;
+	                }
+	            }
+	        }
+	    };
+	    VueBase.prototype.created = function () {
+	    };
+	    VueBase.prototype.mounted = function () {
+	    };
+	    VueBase.PROP = { v: null, _: null };
+	    VueBase.Dict = { v: {}, _: null };
+	    VueBase.Number = { v: 0, _: null };
+	    VueBase.String = { v: "", _: null };
+	    return VueBase;
+	}());
+	exports.VueBase = VueBase;
+
+
+/***/ },
+/* 60 */
+/***/ function(module, exports) {
+
+	module.exports = "<div class=\"box\">\r\n    <input type=\"checkbox\" id=\"checkbox1\" v-model=\"isShowRecVideo\" />\r\n    <label for=\"checkbox1\">显示录制视频</label>\r\n    <p class=\"control\">\r\n        <textarea class=\"textarea\" v-model=\"acText\" style=\"width:500px;height:220px\">\r\nuser 20000000053 pw vl12450\r\nuser 20000000063 pw vl12450\r\nuser 20000000073 pw vl12450\r\nuser 20000000083 pw vl12450\r\nuser 20000000093 pw vl12450\r\n        </textarea>\r\n    </p>\r\n    <a class=\"button is-success\" @click='onSaveAc'>\r\n        <span class=\"icon\">\r\n        <i class=\"fa fa-check\"></i>\r\n        </span>\r\n        <span>Save</span>\r\n    </a>\r\n    <table class='table is-striped'>\r\n        <tr>\r\n            <th>#</th>\r\n            <th>帐号</th>\r\n            <th>密码</th>\r\n            <th>昵称</th>\r\n        </tr>\r\n        <tr v-for=\"(user,index) in userArr\">\r\n            <td>{{index}}</td>\r\n            <td>{{user.name}}</td>\r\n            <td>{{user.pw}}</td>\r\n            <td>{{user.displayName}}</td>\r\n        </tr>\r\n    </table>\r\n</div>";
+
+/***/ },
+/* 61 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	exports.Navbar = {
+	    props: {
+	        active: {},
+	    },
+	    template: __webpack_require__(62),
+	    methods: {}
+	};
+
 
 /***/ },
 /* 62 */
+/***/ function(module, exports) {
+
+	module.exports = "<nav class=\"nav\">\r\n    <div class=\"nav-left\">\r\n        <a class=\"nav-item is-brand\" href=\"#\">\r\n            <span class=\"icon\">\r\n                <i class=\"fa fa-home\"></i>\r\n            </span>\r\n        </a>\r\n    </div>\r\n\r\n    <!--<div class=\"nav-center\">\r\n        <a class=\"nav-item\" href=\"#\">\r\n            <span class=\"icon\">\r\n        <i class=\"fa fa-github\"></i>\r\n      </span>\r\n        </a>\r\n        <a class=\"nav-item\" href=\"#\">\r\n            <span class=\"icon\">\r\n        <i class=\"fa fa-twitter\"></i>\r\n      </span>\r\n        </a>\r\n    </div>-->\r\n\r\n    <span class=\"nav-toggle\">\r\n    <span></span>\r\n    <span></span>\r\n    <span></span>\r\n    </span>\r\n\r\n    <div class=\"nav-right nav-menu\">\r\n        <router-link :to=\"{ name: 'setting'}\">\r\n            <!--<a class=\"nav-item\">-->\r\n            Setting\r\n            <!--</a>-->\r\n        </router-link>\r\n    </div>\r\n</nav>";
+
+/***/ },
+/* 63 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var Command_1 = __webpack_require__(53);
+	var Player_1 = __webpack_require__(64);
+	var MonitorModel_1 = __webpack_require__(52);
+	var JsFunc_1 = __webpack_require__(66);
+	var VueBase_1 = __webpack_require__(59);
+	exports.monitorModel = new MonitorModel_1.MonitorModel();
+	var MonitorView = (function (_super) {
+	    __extends(MonitorView, _super);
+	    function MonitorView() {
+	        _super.call(this);
+	        this.template = __webpack_require__(67);
+	        this.topicArr = VueBase_1.VueBase.PROP;
+	        this.roomArr = VueBase_1.VueBase.PROP;
+	        this.playerArr = VueBase_1.VueBase.PROP;
+	        this.components = {
+	            'Player': Player_1.playerView,
+	        };
+	        this.methods = {
+	            onSelectTopic: function (topicId) {
+	                var _this = this;
+	                console.log("onSelectTopic:", topicId);
+	                exports.monitorModel.getLiveList(topicId, function (roomArr) {
+	                    _this.roomArr = roomArr;
+	                    for (var i = 0; i < _this.roomArr.length; i++) {
+	                        var roomInfo = _this.roomArr[i];
+	                        var urlLen = roomInfo.rtmp.length;
+	                        roomInfo.shortUrl = roomInfo.rtmp.substr(0, 30)
+	                            + "..." + roomInfo.rtmp.substr(urlLen - 11, 11);
+	                    }
+	                    console.log('roomArr', _this.roomArr);
+	                    $('#roomList').show();
+	                });
+	            },
+	            onOpenRoom: function (roomInfo) {
+	                console.log(roomInfo);
+	                this.playerArr.push(roomInfo);
+	                this.onCloseRoomList();
+	            },
+	            onCloseRoomList: function () {
+	                $('#roomList').hide();
+	            },
+	        };
+	        VueBase_1.VueBase.initProps(this);
+	        this.initEvent();
+	    }
+	    MonitorView.prototype.created = function () {
+	        console.log("created");
+	    };
+	    MonitorView.prototype.mounted = function () {
+	        this.playerArr = [];
+	        console.log("mounted");
+	        this.getTopicInfo();
+	    };
+	    MonitorView.prototype.initEvent = function () {
+	        var _this = this;
+	        exports.monitorModel.on(Command_1.CommandId.onClosePlayer, function (roomInfo) {
+	            var a = [];
+	            for (var _i = 0, _a = _this.playerArr; _i < _a.length; _i++) {
+	                var r = _a[_i];
+	                if (r != roomInfo) {
+	                    a.push(r);
+	                }
+	            }
+	            _this.playerArr = a;
+	        });
+	    };
+	    MonitorView.prototype.getTopicInfo = function () {
+	        var _this = this;
+	        exports.monitorModel.getTopic(function (topicInfoArr) {
+	            var a = topicInfoArr.sort(JsFunc_1.descendingProp('liveCount'));
+	            var actTopic = [];
+	            var disActTopic = [];
+	            for (var i = 0; i < a.length; i++) {
+	                var topicObj = a[i];
+	                if (topicObj.hasActiveLive) {
+	                    actTopic.push(topicObj);
+	                }
+	                else
+	                    disActTopic.push(topicObj);
+	            }
+	            if (exports.monitorModel.settingModel.isShowRecVideo)
+	                _this.topicArr = actTopic.concat(disActTopic);
+	            else
+	                _this.topicArr = actTopic.concat();
+	            console.log('topicInfo', _this.topicArr);
+	        });
+	    };
+	    return MonitorView;
+	}(VueBase_1.VueBase));
+	exports.monitorView = new MonitorView();
+
+
+/***/ },
+/* 64 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var DmkInfo_1 = __webpack_require__(58);
+	var MonitorModel_1 = __webpack_require__(52);
+	var VueBase_1 = __webpack_require__(59);
+	var PlayerView = (function (_super) {
+	    __extends(PlayerView, _super);
+	    function PlayerView() {
+	        _super.call(this);
+	        this.template = __webpack_require__(65);
+	        this.roomInfo = VueBase_1.VueBase.PROP;
+	        this.idx = VueBase_1.VueBase.PROP;
+	        this.dmkArr = VueBase_1.VueBase.PROP;
+	        this.dmkContent = VueBase_1.VueBase.PROP;
+	        this.isShowAclist = VueBase_1.VueBase.PROP;
+	        this.userArr = VueBase_1.VueBase.PROP;
+	        this.methods = {
+	            onClose: function () {
+	                console.log("onClose", this.player);
+	                this.player.dispose();
+	                $(this.$el).empty();
+	                $(this.$el).hide();
+	            },
+	            onClkAc: function () {
+	                this.userArr = MonitorModel_1.monitorModel.accountInfo.userArr || store.get('userArr');
+	                this.isShowAclist = true;
+	            },
+	            onInputEnter: function (e) {
+	                console.log('onEnter', e);
+	                if (e.keyIdentifier && e.keyIdentifier == "Enter") {
+	                    this.onSendDmk();
+	                }
+	            },
+	            onSendDmk: function () {
+	                console.log('onSendDmk', this.roomInfo, this.dmkContent, MonitorModel_1.monitorModel.nameTokenMap, MonitorModel_1.monitorModel.wsMap);
+	                var ac = this.roomInfo.selAc;
+	                if (ac) {
+	                    var token = MonitorModel_1.monitorModel.nameTokenMap[ac];
+	                    var wsIdx = MonitorModel_1.MonitorModel.getWsIdx(this.roomInfo.id, token);
+	                    var ws = MonitorModel_1.monitorModel.wsMap[wsIdx];
+	                    console.log('getWsIdx', ws, wsIdx);
+	                    if (ws) {
+	                        var roomInfo = MonitorModel_1.monitorModel.liveMap[this.roomInfo.id];
+	                        var dmk = this.dmkContent;
+	                        this.dmkContent = '';
+	                        if (dmk.length > 0 && dmk[0] != " ") {
+	                            var packMsg = DmkInfo_1.packDmk(dmk, null);
+	                            ws.send(packMsg);
+	                        }
+	                    }
+	                    else {
+	                        alert('发送失败：请登录');
+	                    }
+	                }
+	            },
+	            onSelAc: function (ac) {
+	                var _this = this;
+	                this.isShowAclist = false;
+	                console.log('onSelAc', ac);
+	                this.roomInfo.selAc = ac;
+	                var token = MonitorModel_1.monitorModel.nameTokenMap[ac];
+	                if (!token) {
+	                    MonitorModel_1.monitorModel.accountInfo.login(ac, null, function (loginToken) {
+	                        MonitorModel_1.monitorModel.nameTokenMap[ac] = loginToken;
+	                        MonitorModel_1.monitorModel.openChatWs(_this.roomInfo, loginToken, _this.onDmkArrUpdate);
+	                        _this.roomInfo.displayName = MonitorModel_1.monitorModel.accountInfo.getDisplayName(ac);
+	                    });
+	                }
+	                else {
+	                    this.roomInfo.displayName = MonitorModel_1.monitorModel.accountInfo.getDisplayName(ac);
+	                    this.makeWs(token);
+	                }
+	            },
+	        };
+	        VueBase_1.VueBase.initProps(this);
+	    }
+	    PlayerView.prototype.created = function () {
+	        console.log("created player:", this.idx, this.roomInfo);
+	    };
+	    PlayerView.prototype.makeWs = function (token) {
+	        console.log("makeWs", token);
+	        var wsIdx = MonitorModel_1.MonitorModel.getWsIdx(this.roomInfo.id, token);
+	        var ws = MonitorModel_1.monitorModel.wsMap[wsIdx];
+	        if (!ws) {
+	            MonitorModel_1.monitorModel.openChatWs(this.roomInfo, token, this.onDmkArrUpdate);
+	        }
+	    };
+	    PlayerView.prototype.onDmkArrUpdate = function (v) {
+	        console.log("onDmkArrUpdate", v);
+	        this.dmkArr = v;
+	        var $textarea = $(this.$el).find("textarea")[0];
+	        $textarea.scrollTop = $textarea.scrollHeight;
+	    };
+	    PlayerView.prototype.mounted = function () {
+	        var _this = this;
+	        var playerId = 'player' + this.roomInfo.id;
+	        console.log("mounted player", playerId);
+	        var $player = $(this.$el).find('video').attr('id', playerId);
+	        var player = videojs(playerId, {
+	            autoplay: true,
+	            autoHeight: true,
+	            controlBar: {
+	                progressControl: false,
+	                remainingTimeDisplay: false,
+	                durationDisplay: false
+	            }
+	        }, function () {
+	            console.log('Good to go!');
+	            var url1 = _this.roomInfo.rtmp;
+	            player.src({ src: url1, type: "video/flv" });
+	            player.play();
+	            player.on('ended', function () {
+	                console.log('awww...over so soon?');
+	            });
+	            player.on('play', function () {
+	                console.log('on play');
+	                player.height = 440;
+	            });
+	        });
+	        this.player = player;
+	    };
+	    return PlayerView;
+	}(VueBase_1.VueBase));
+	exports.PlayerView = PlayerView;
+	exports.playerView = new PlayerView();
+
+
+/***/ },
+/* 65 */
+/***/ function(module, exports) {
+
+	module.exports = "<div class=\"PlayerVideoJS box\" style=\"width:260px;height:850px;padding:5;margin-right:5\">\r\n    <div class=\"row\">{{roomInfo.title}} <br>主播：{{roomInfo.mc}}\r\n    </div>\r\n    <button class=\"delete\" style=\"position:relative;left:226px;top:-40px;\" @click='onClose'></button>\r\n    <video class=\"video-js vjs-default-skin vjs-fluid\" controls width=\"250\" height=\"440\" data-setup=\"{}\">\r\n        </video>\r\n\r\n    <div class=\"col\">\r\n        <div class=\"row\">\r\n            <a href=\"#\" @click=\"onClkAc\"> 帐号： {{roomInfo.displayName||(roomInfo.selAc||\"未登录\")}}</a>\r\n            <p class=\"control\">\r\n                <textarea class=\"textarea\" v-model=\"dmkArr\" style=\"height:220px\" readonly=\"readonly\"></textarea>\r\n            </p>\r\n        </div>\r\n        <div class=\"control\">\r\n            <input placeholder=\"enter发送弹幕\" style=\"width: 200px\" class=\"input\" @keyup.enter=\"onInputEnter\" v-model=\"dmkContent\">\r\n        </div>\r\n        <div class=\"box\" v-if=\"isShowAclist\" style=\"position:absolute;left:50px;top:530px;overflow-y:scroll;height:150px\">\r\n            <div v-for=\"user in userArr\">\r\n                <a href=\"#\" @click=\"onSelAc(user.name)\">\r\n                    {{ user.name }}:{{ user.displayName }}\r\n                </a>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>";
+
+/***/ },
+/* 66 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -3090,76 +3156,10 @@
 
 
 /***/ },
-/* 63 */
-/***/ function(module, exports) {
-
-	module.exports = "<aside class=\"menu\">\r\n    <p class=\"menu-label\">\r\n        <h1>话题</h1>\r\n    </p>\r\n    <ul class=\"menu-list\" style=\"width:270px\">\r\n        <li v-for=\"(topic,index) in topicArr\">\r\n            <a href=\"#\" @click=\"onSelectTopic(topic.id)\">{{topic.topic}}</a>\r\n        </li>\r\n    </ul>\r\n\r\n    <div style=\"position: absolute;\r\n         display: inline-flex;\r\n         left: 270px;top:55px;\">\r\n        <player :idx=\"index\" :roomInfo='roomInfo' v-for=\"(roomInfo, index) in playerArr\">\r\n        </player>\r\n    </div>\r\n\r\n    <div style=\"overflow-y: scroll\">\r\n        <div id=\"roomList\" class=\"collection box\" style=\"position: absolute;left: 70px;top:60px;width: 800px;z-index: 999;display:none\">\r\n            <button class=\"delete\" @click='onCloseRoomList'></button>\r\n            <li v-for=\"(roomInfo,index) in roomArr\">\r\n                <div class=\"row\">{{roomInfo.title}} [{{roomInfo.mc}}]\r\n                    <a href=\"#\" @click=\"onOpenRoom(roomInfo)\" title=\"打开直播\">{{ roomInfo.shortUrl}}</a>\r\n                </div>\r\n            </li>\r\n        </div>\r\n    </div>\r\n</aside>";
-
-/***/ },
-/* 64 */,
-/* 65 */,
-/* 66 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var __extends = (this && this.__extends) || function (d, b) {
-	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	    function __() { this.constructor = d; }
-	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-	};
-	var MonitorModel_1 = __webpack_require__(55);
-	var VueBase_1 = __webpack_require__(53);
-	var SettingView = (function (_super) {
-	    __extends(SettingView, _super);
-	    function SettingView() {
-	        _super.call(this);
-	        this.isShowRecVideo = VueBase_1.VueBase.PROP;
-	        this.acText = VueBase_1.VueBase.PROP;
-	        this.userArr = VueBase_1.VueBase.PROP;
-	        this.template = __webpack_require__(67);
-	        this.watch = {
-	            isShowRecVideo: 'onIsShowRecVideo'
-	        };
-	        this.methods = {
-	            onIsShowRecVideo: function (v) {
-	                MonitorModel_1.monitorModel.settingModel.isShowRecVideo = this.isShowRecVideo;
-	                console.log('onIsShowRecVideo', v);
-	            },
-	            onSaveAc: function () {
-	                var lines = this.acText.split('\n');
-	                var userArr = [];
-	                for (var _i = 0, lines_1 = lines; _i < lines_1.length; _i++) {
-	                    var l = lines_1[_i];
-	                    var a = l.split(' ');
-	                    userArr.push({ name: a[1], pw: a[3], token: '', displayName: '' });
-	                }
-	                this.userArr = userArr;
-	                if (userArr.length) {
-	                    store.set('userArr', userArr);
-	                    console.log('onSaveAc', userArr);
-	                }
-	                else
-	                    alert("格式不对！");
-	            },
-	        };
-	        VueBase_1.VueBase.initProps(this);
-	    }
-	    SettingView.prototype.mounted = function () {
-	        console.log('SettingView mounted');
-	        this.isShowRecVideo = MonitorModel_1.monitorModel.settingModel.isShowRecVideo;
-	        this.userArr = MonitorModel_1.monitorModel.accountInfo.userArr;
-	    };
-	    return SettingView;
-	}(VueBase_1.VueBase));
-	;
-	exports.settingView = new SettingView();
-
-
-/***/ },
 /* 67 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"box\">\r\n    <input type=\"checkbox\" id=\"checkbox1\" v-model=\"isShowRecVideo\" />\r\n    <label for=\"checkbox1\">显示录制视频</label>\r\n    <p class=\"control\">\r\n        <textarea class=\"textarea\" v-model=\"acText\" style=\"width:500px;height:220px\">\r\nuser 20000000053 pw vl12450\r\nuser 20000000063 pw vl12450\r\nuser 20000000073 pw vl12450\r\nuser 20000000083 pw vl12450\r\nuser 20000000093 pw vl12450\r\n        </textarea>\r\n    </p>\r\n    <a class=\"button is-success\" @click='onSaveAc'>\r\n        <span class=\"icon\">\r\n        <i class=\"fa fa-check\"></i>\r\n        </span>\r\n        <span>Save</span>\r\n    </a>\r\n    <table class='table is-striped'>\r\n        <tr>\r\n            <th>#</th>\r\n            <th>帐号</th>\r\n            <th>密码</th>\r\n            <th>昵称</th>\r\n        </tr>\r\n        <tr v-for=\"(user,index) in userArr\">\r\n            <td>{{index}}</td>\r\n            <td>{{user.name}}</td>\r\n            <td>{{user.pw}}</td>\r\n            <td>{{user.displayName}}</td>\r\n        </tr>\r\n    </table>\r\n</div>";
+	module.exports = "<aside class=\"menu\">\r\n    <p class=\"menu-label\">\r\n        <h1>话题</h1>\r\n    </p>\r\n    <ul class=\"menu-list\" style=\"width:270px\">\r\n        <li v-for=\"(topic,index) in topicArr\">\r\n            <a href=\"#\" @click=\"onSelectTopic(topic.id)\">{{topic.topic}}</a>\r\n        </li>\r\n    </ul>\r\n\r\n    <div style=\"position: absolute;\r\n         display: inline-flex;\r\n         left: 270px;top:55px;\">\r\n        <player :idx=\"index\" :roomInfo='roomInfo' v-for=\"(roomInfo, index) in playerArr\">\r\n        </player>\r\n    </div>\r\n\r\n    <div style=\"overflow-y: scroll\">\r\n        <div id=\"roomList\" class=\"collection box\" style=\"position: absolute;left: 70px;top:60px;width: 800px;z-index: 999;display:none\">\r\n            <button class=\"delete\" @click='onCloseRoomList'></button>\r\n            <li v-for=\"(roomInfo,index) in roomArr\">\r\n                <div class=\"row\">{{roomInfo.title}} [{{roomInfo.mc}}]\r\n                    <a href=\"#\" @click=\"onOpenRoom(roomInfo)\" title=\"打开直播\">{{ roomInfo.shortUrl}}</a>\r\n                </div>\r\n            </li>\r\n        </div>\r\n    </div>\r\n</aside>";
 
 /***/ }
 /******/ ]);
